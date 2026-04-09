@@ -1,28 +1,28 @@
 # specs/
 
-This directory contains the ShellSpec baseline suite.
+This directory contains the ShellSpec baseline for `microbash`.
 
-This is the fixed-contract lane of the workbench.
-Use ShellSpec to define the shell-native examples that should remain stable while helper implementations evolve.
+The spec suite checks the shell-side foundation directly. It is the fixed example lane for behaviors that should remain stable while the helper layer evolves.
 
-These specs should be:
+Current specs cover:
 
-- small
-- direct
-- human-readable
-- semantically sharp
+- [`control_spec.sh`](/home/chronos/.local/share/src/bash/microbash/specs/control_spec.sh)
+- [`output_spec.sh`](/home/chronos/.local/share/src/bash/microbash/specs/output_spec.sh)
+- [`state_spec.sh`](/home/chronos/.local/share/src/bash/microbash/specs/state_spec.sh)
 
-Each spec should focus on one helper family or one semantic surface.
+All specs source [`bash/init.sh`](/home/chronos/.local/share/src/bash/microbash/bash/init.sh), so they exercise the same bootstrap path the runner uses.
 
----
+## What these specs should prove
 
-## What ShellSpec contributes
-
-ShellSpec is responsible for proving known behavior, such as:
-
-- return vs exit expectations
 - stdout vs stderr separation
+- return vs exit behavior
 - local vs global state discipline
-- argument-count failure behavior
+- small helper contracts that must not drift
 
-Probe events should be enabled during ShellSpec runs so each example also yields semantic evidence, not just pass/fail output.
+## What these specs should not become
+
+- a second framework
+- long integration scripts
+- broad workflow demos
+
+ShellSpec is most useful here when each example stays small, direct, and semantically specific.

@@ -1,47 +1,38 @@
 # bash/
 
-This directory contains the shell-side implementation substrate for the workbench.
+This directory is the shell runtime for `microbash`.
 
-This is where Bash actually runs.
-Everything here should be oriented around one of four responsibilities:
+It contains the small Bash foundation under test:
 
-- instrumentation
-- helper prototyping
-- subject behavior under analysis
-- scenario execution
+- `probe.sh`: structured event emission for shell-side evidence
+- `init.sh`: bootstrap that sources the probe and helper families
+- `helpers/`: thin wrapper functions around sharp Bash behaviors
+- `subject/`: tiny subject functions used to exercise those helpers
+- `runner/`: scenario entrypoints that execute subjects deliberately
 
----
+`microbash` is not trying to be a full shell framework here. The point of this tree is to keep the Bash side small, explicit, and easy to reason about.
 
-## Subdirectories
+## Load order
 
-```text
-helpers/   Candidate helper implementations.
-subject/   Small subject functions used to stimulate semantic surfaces.
-runner/    Scenario runner entrypoints.
-```
+[`init.sh`](/home/chronos/.local/share/src/bash/microbash/bash/init.sh) is the entrypoint for most shell-side use. It loads:
 
-At this level, `probe.sh` is the most important file.
-It is the sensor substrate that turns Bash execution into structured evidence.
+1. the probe
+2. context helpers
+3. control helpers
+4. output helpers
+5. argv helpers
+6. state helpers
+7. word helpers
+8. file helpers
 
----
+That gives specs and runner scripts one stable bootstrap instead of hand-sourcing individual files.
 
-## Execution rules
+## Design constraints
 
-### 1. Bash is the runtime authority
+- Bash stays the runtime authority.
+- Helpers should sharpen Bash semantics, not hide them.
+- Subjects should stay tiny and stimulus-oriented.
+- The runner should execute scenarios, not perform analysis.
+- Probe output should make important shell effects visible without turning every helper into a framework.
 
-Do not replace Bash semantics with clever shell abstractions.
-Observe Bash closely and only wrap operations where the evidence shows the wrapper is justified.
-
-### 2. Probe before convenience
-
-If a helper performs a meaningful semantic effect, that effect should be observable through probe-backed events.
-
-### 3. Keep subject functions tiny
-
-`subject/` should contain small, semantically sharp functions.
-Do not turn it into an application.
-
-### 4. The runner is a stimulus harness
-
-The scenario runner should intentionally exercise semantic surfaces.
-It is not a demo script.
+If a behavior needs orchestration, UI, or app-specific policy, it belongs above this layer.

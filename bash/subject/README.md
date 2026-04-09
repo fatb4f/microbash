@@ -1,32 +1,28 @@
 # bash/subject/
 
-This directory contains small subject functions that deliberately exercise Bash semantic surfaces.
+This directory contains tiny subject functions used to exercise the `microbash` foundation.
 
-The subject layer is not a general library.
-It is a controlled stimulus set used by:
+The current subject library lives in [`subject_lib.sh`](/home/chronos/.local/share/src/bash/microbash/bash/subject/subject_lib.sh). These functions are intentionally small and exist to trigger specific helper behavior under controlled conditions.
+
+Current subjects cover:
+
+- stdout emission
+- context-aware failure signaling
+- local state mutation
+
+## Purpose
+
+Subjects are not public helpers and not application code. They are shell stimuli used by:
 
 - the scenario runner
 - ShellSpec examples
-- Hypothesis-generated runs
+- ad hoc shell testing while the foundation evolves
 
----
+## Rules
 
-## Design rules
+- keep functions short
+- prefer one sharp behavior per function
+- call the foundation helpers directly
+- avoid unrelated branching or workflow logic
 
-### 1. Keep functions tiny
-
-Each function should exercise one or two semantic surfaces only.
-
-### 2. Prefer focused edge cases
-
-A good subject function reveals something meaningful about:
-
-- return vs exit
-- local vs global mutation
-- stdout vs stderr separation
-- scalar vs array behavior
-- context changes such as subshell or sourced execution
-
-### 3. Avoid building application logic here
-
-If a function is long or has multiple unrelated branches, it belongs somewhere else.
+When a subject starts looking like a reusable helper, move that logic into `helpers/`. When it starts looking like a script, it belongs outside this tree.

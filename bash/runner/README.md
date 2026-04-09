@@ -1,15 +1,28 @@
 # bash/runner/
 
-This directory contains the Bash entrypoints used to execute scenario-based stimuli.
+This directory contains shell entrypoints that execute named scenarios.
 
-The runner is the shell-side coordinator.
-It should:
+Right now that means [`scenario_runner.sh`](/home/chronos/.local/share/src/bash/microbash/bash/runner/scenario_runner.sh), which does four things:
 
-- source the probe
-- source the helper prototypes
-- source the subject library
-- dispatch scenario IDs to small subject functions
-- emit scenario boundary events when appropriate
+1. source [`bash/init.sh`](/home/chronos/.local/share/src/bash/microbash/bash/init.sh)
+2. source [`subject/subject_lib.sh`](/home/chronos/.local/share/src/bash/microbash/bash/subject/subject_lib.sh)
+3. emit scenario start and end probe events
+4. dispatch a small set of scenario IDs to subject functions
 
-The runner is not responsible for heavy analysis.
-It only executes scenarios and lets the probe emit evidence.
+The runner is a stimulus harness. It should stay boring.
+
+## Responsibilities
+
+- accept a scenario id plus optional arguments
+- execute one subject path intentionally
+- preserve the shell semantics of that path
+- emit enough probe evidence to correlate the run later
+
+## Non-responsibilities
+
+- no heavy analysis
+- no reporting
+- no policy engine
+- no application logic
+
+If a scenario needs complex branching, the subject layer is already too large or the helper boundary is not sharp enough yet.

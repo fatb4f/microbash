@@ -1,54 +1,29 @@
 # bash/helpers/
 
-This directory contains the candidate helper implementations being evaluated by the workbench.
+This directory contains the `microbash` foundation helpers.
 
-These files are **not** a finished framework.
-They are the smallest plausible semantic helper layer used to discover:
+These are thin shell wrappers, not a convenience framework. Each file owns one semantic area:
 
-- which helper boundaries are justified
-- which helpers are too broad
-- which helpers fail under generated pressure
+- [`context.sh`](/home/chronos/.local/share/src/bash/microbash/bash/helpers/context.sh): sourced vs executed checks and stream/context detection
+- [`control.sh`](/home/chronos/.local/share/src/bash/microbash/bash/helpers/control.sh): return, exit, and context-aware failure signaling
+- [`output.sh`](/home/chronos/.local/share/src/bash/microbash/bash/helpers/output.sh): stdout data vs stderr diagnostics
+- [`args.sh`](/home/chronos/.local/share/src/bash/microbash/bash/helpers/args.sh): argv count checks and argument extraction
+- [`state.sh`](/home/chronos/.local/share/src/bash/microbash/bash/helpers/state.sh): explicit local/global/export writes and shell-option stack handling
+- [`words.sh`](/home/chronos/.local/share/src/bash/microbash/bash/helpers/words.sh): scalar, array, emptiness, and join behavior
+- [`file.sh`](/home/chronos/.local/share/src/bash/microbash/bash/helpers/file.sh): minimal file predicates and guarded sourcing
 
----
+## What belongs here
 
-## Required implementation style
+- wrappers around real Bash behavior
+- explicit side effects
+- small, composable functions
+- probe-backed intent when the helper crosses a meaningful semantic edge
 
-### 1. One dominant semantic surface per helper
+## What does not belong here
 
-A helper should have one primary surface.
-If it spans too many surfaces, it should probably be split.
+- UI formatting
+- retries and orchestration flows
+- app-specific workflow helpers
+- vague “do everything” wrappers
 
-### 2. Wrap a real shell effect
-
-A helper should perform a meaningful shell operation and, where appropriate, emit probe-backed intent.
-
-### 3. No generic convenience wrappers
-
-Avoid vague helpers such as `emit`, `set_value`, or `handle_error`.
-Helper names should expose shape, scope, or control mode.
-
----
-
-## Initial files
-
-The skeleton includes one file per family:
-
-- `control.sh`
-- `output.sh`
-- `args.sh`
-- `state.sh`
-- `words.sh`
-- `context.sh`
-
-These files contain only minimal placeholders.
-They should remain small enough to serve as a foundation layer:
-
-- context detection
-- control signaling
-- stream discipline
-- argv handling
-- state mutation
-- word and array boundaries
-- minimal file predicates
-
-Everything above that belongs in a higher-level workflow layer, not here.
+Good helper names should tell you what kind of shell effect they perform. If a helper hides scope, control flow, or word semantics, it is too broad for this layer.
