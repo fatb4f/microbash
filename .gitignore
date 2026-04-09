@@ -1,0 +1,6 @@
+__pycache__/
+.pytest_cache/
+.venv/
+artifacts/runs/*
+!artifacts/runs/README.md
+reports/*.tmp
