@@ -3,6 +3,12 @@
 
 MICROBASH_BASH_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
+# shellcheck source=./version.sh
+source "$MICROBASH_BASH_DIR/version.sh"
+if ! bash_require_min_version 5 2; then
+  return 2
+fi
+
 # shellcheck source=./probe.sh
 source "$MICROBASH_BASH_DIR/probe.sh"
 # shellcheck source=./helpers/context.sh

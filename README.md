@@ -1,11 +1,12 @@
 # microbash
 
-`microbash` is a small Bash 5.3 learning workbench organized as an **integrated dual-surface**:
+`microbash` is a small Bash 5.x learning workbench organized as an **integrated dual-surface**:
 
 - **Bash surface**: runtime helpers, subjects, and specs that exercise sharp shell behavior directly.
 - **CUE surface**: machine-readable contracts that describe planes, helper ownership, tooling coverage, and learning-oriented invariants.
 
 The design goal is to keep Bash as the runtime authority while using CUE as the contract and projection surface.
+The Bash assets are written to stay compatible with Bash 5.2+ and avoid relying on 5.3-only syntax.
 
 ## Why dual-surface?
 
