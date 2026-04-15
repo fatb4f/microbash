@@ -31,10 +31,18 @@ arg_take_rest_array() {
 
   probe_word_array "$target_name" "$@"
 
-  if declare -p "$target_name" >/dev/null 2>&1; then
-    local -n target_ref="$target_name"
-    target_ref=("$@")
-  else
-    printf -v "$target_name" '%s' "$*"
+  if ! declare -p "$target_name" >/dev/null 2>&1; then
+    err_line "arg_take_rest_array requires target array '$target_name' to be declared first"
+    return 64
   fi
+
+  local target_decl
+  target_decl="$(declare -p "$target_name" 2>/dev/null)" || return 64
+  if [[ "$target_decl" != declare\ -a* && "$target_decl" != declare\ -A* && "$target_decl" != declare\ -n* ]]; then
+    err_line "arg_take_rest_array target '$target_name' must be an array variable"
+    return 64
+  fi
+
+  local -n target_ref="$target_name"
+  target_ref=("$@")
 }

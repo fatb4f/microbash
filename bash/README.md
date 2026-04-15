@@ -4,6 +4,7 @@ This directory is the shell runtime for `microbash`.
 
 It contains the small Bash foundation under test:
 
+- `version.sh`: Bash version floor guard for the runtime tree
 - `probe.sh`: structured event emission for shell-side evidence
 - `init.sh`: bootstrap that sources the probe and helper families
 - `helpers/`: thin wrapper functions around sharp Bash behaviors
@@ -12,18 +13,21 @@ It contains the small Bash foundation under test:
 
 `microbash` is not trying to be a full shell framework here. The point of this tree is to keep the Bash side small, explicit, and easy to reason about.
 
+The tree is written against Bash 5.x, with an explicit 5.2+ runtime floor and no 5.3-only syntax requirements.
+
 ## Load order
 
 [`init.sh`](/home/chronos/.local/share/src/bash/microbash/bash/init.sh) is the entrypoint for most shell-side use. It loads:
 
-1. the probe
-2. context helpers
-3. control helpers
-4. output helpers
-5. argv helpers
-6. state helpers
-7. word helpers
-8. file helpers
+1. the version floor guard
+2. the probe
+3. context helpers
+4. control helpers
+5. output helpers
+6. argv helpers
+7. state helpers
+8. word helpers
+9. file helpers
 
 That gives specs and runner scripts one stable bootstrap instead of hand-sourcing individual files.
 

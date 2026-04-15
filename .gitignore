@@ -4,3 +4,6 @@ __pycache__/
 artifacts/runs/*
 !artifacts/runs/README.md
 reports/*.tmp
+
+cue.mod/pkg/
+cue.mod/gen/

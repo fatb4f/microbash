@@ -6,9 +6,11 @@ The spec suite checks the shell-side foundation directly. It is the fixed exampl
 
 Current specs cover:
 
+- [`args_spec.sh`](/home/chronos/.local/share/src/bash/microbash/specs/args_spec.sh)
 - [`control_spec.sh`](/home/chronos/.local/share/src/bash/microbash/specs/control_spec.sh)
 - [`output_spec.sh`](/home/chronos/.local/share/src/bash/microbash/specs/output_spec.sh)
 - [`state_spec.sh`](/home/chronos/.local/share/src/bash/microbash/specs/state_spec.sh)
+- [`words_spec.sh`](/home/chronos/.local/share/src/bash/microbash/specs/words_spec.sh)
 
 All specs source [`bash/init.sh`](/home/chronos/.local/share/src/bash/microbash/bash/init.sh), so they exercise the same bootstrap path the runner uses.
 
