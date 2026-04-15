@@ -51,3 +51,14 @@ word_array_contains() {
   done
   return 1
 }
+
+
+word_require_nonempty() {
+  local value="${1-}"
+  local label="${2:-value}"
+  if [[ -z "$value" ]]; then
+    err_line "$label must not be empty"
+    return 64
+  fi
+  return 0
+}

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 
-declare -ag WORKBENCH_SET_STACK=()
+declare -ag MICROBASH_SET_STACK=()
 
 state_local_set() {
   local __name="$1"
@@ -31,21 +31,21 @@ state_push_option() {
   local mode="+"
 
   [[ "$-" == *"$option"* ]] && mode="-"
-  WORKBENCH_SET_STACK+=("${mode}${option}")
+  MICROBASH_SET_STACK+=("${mode}${option}")
   __probe_emit "state" "state.option_push" \
     "{\"option\":\"$(__probe_json_escape "$option")\",\"mode\":\"$mode\"}"
 }
 
 state_pop_option() {
   local option="$1"
-  local len=${#WORKBENCH_SET_STACK[@]}
+  local len=${#MICROBASH_SET_STACK[@]}
   local last
 
   (( len > 0 )) || return 64
-  last="${WORKBENCH_SET_STACK[$((len - 1))]}"
+  last="${MICROBASH_SET_STACK[$((len - 1))]}"
   [[ "${last#?}" == "$option" ]] || return 64
 
-  unset 'WORKBENCH_SET_STACK[$((len - 1))]'
+  unset 'MICROBASH_SET_STACK[$((len - 1))]'
   set "$last"
   __probe_emit "state" "state.option_pop" \
     "{\"option\":\"$(__probe_json_escape "$option")\",\"mode\":\"${last:0:1}\"}"
